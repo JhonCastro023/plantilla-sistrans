@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 import uniandes.edu.co.proyecto.model.UsuarioConductor;
 import uniandes.edu.co.proyecto.repository.UsuarioConductorRepository;
@@ -44,22 +45,33 @@ public class UsuarioConductorController {
     @PostMapping("/new/save")
     public ResponseEntity<String> guardarUsuarioConductor(@RequestBody UsuarioConductor usuario) {
         try {
-            usuarioConductorRepository.insertarUsuarioConductor(usuario.getNombre(), usuario.getNumeroLicencia());
+            usuarioConductorRepository.insertarUsuarioConductor(
+                    usuario.getNombre(),
+                    usuario.getNumeroLicencia(),
+                    usuario.getVehiculo()
+            );
             return new ResponseEntity<>("UsuarioConductor creado exitosamente", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Error al crear el usuario conductor", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+
     @PostMapping("/{id}/edit/save")
     public ResponseEntity<String> editarUsuarioConductor(@PathVariable("id") Long id, @RequestBody UsuarioConductor usuario) {
         try {
-            usuarioConductorRepository.actualizarUsuarioConductor(id, usuario.getNombre(), usuario.getNumeroLicencia());
+            usuarioConductorRepository.actualizarUsuarioConductor(
+                    id,
+                    usuario.getNombre(),
+                    usuario.getNumeroLicencia(),
+                    usuario.getVehiculo()
+            );
             return new ResponseEntity<>("UsuarioConductor actualizado exitosamente", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error al actualizar el usuario conductor", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> eliminarUsuarioConductor(@PathVariable("id") Long id) {
@@ -70,4 +82,17 @@ public class UsuarioConductorController {
             return new ResponseEntity<>("Error al eliminar el usuario conductor", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/{id}/vehiculo/save")
+    public ResponseEntity<String> registrarVehiculo(
+            @PathVariable("id") Long id,
+            @RequestBody Map<String, String> body) {
+        try {
+            String vehiculo = body.get("vehiculo");
+            usuarioConductorRepository.registrarVehiculo(id, vehiculo);
+            return new ResponseEntity<>("Vehículo registrado correctamente", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al registrar vehículo", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

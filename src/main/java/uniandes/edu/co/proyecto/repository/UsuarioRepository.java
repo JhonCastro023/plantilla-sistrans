@@ -20,13 +20,28 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO usuario (id, nombre, email, telefono) VALUES (alpescab_seq.nextval, :nombre, :email, :telefono)", nativeQuery = true)
-    void insertarUsuario(@Param("nombre") String nombre, @Param("email") String email, @Param("telefono") String telefono);
+    @Query(value = "INSERT INTO usuario (id, nombre, email, celular, cedula) " +
+                    "VALUES (alpescab_seq.nextval, :nombre, :email, :celular, :cedula)", 
+           nativeQuery = true)
+    void insertarUsuario(
+        @Param("nombre") String nombre,
+        @Param("email") String email,
+        @Param("celular") String celular,
+        @Param("cedula") String cedula
+    );
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE usuario SET nombre = :nombre, email = :email, telefono = :telefono WHERE id = :id", nativeQuery = true)
-    void actualizarUsuario(@Param("id") Long id, @Param("nombre") String nombre, @Param("email") String email, @Param("telefono") String telefono);
+    @Query(value = "UPDATE usuario SET nombre = :nombre, email = :email, celular = :celular, cedula = :cedula " +
+                   "WHERE id = :id", 
+           nativeQuery = true)
+    void actualizarUsuario(
+        @Param("id") Long id,
+        @Param("nombre") String nombre,
+        @Param("email") String email,
+        @Param("celular") String celular,
+        @Param("cedula") String cedula
+    );
 
     @Modifying
     @Transactional

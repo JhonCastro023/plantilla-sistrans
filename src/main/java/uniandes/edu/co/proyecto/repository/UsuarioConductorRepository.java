@@ -20,16 +20,42 @@ public interface UsuarioConductorRepository extends JpaRepository<UsuarioConduct
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO usuario_conductor (id, nombre, numero_licencia) VALUES (alpescab_seq.nextval, :nombre, :numeroLicencia)", nativeQuery = true)
-    void insertarUsuarioConductor(@Param("nombre") String nombre, @Param("numeroLicencia") String numeroLicencia);
+    @Query(value = """
+            INSERT INTO usuario_conductor
+            (id, nombre, numero_licencia, vehiculo, activo)
+            VALUES (alpescab_seq.nextval, :nombre, :numeroLicencia, :vehiculo, 'S')
+            """, nativeQuery = true)
+    void insertarUsuarioConductor(
+            @Param("nombre") String nombre,
+            @Param("numeroLicencia") String numeroLicencia,
+            @Param("vehiculo") String vehiculo
+    );
+
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE usuario_conductor SET nombre = :nombre, numero_licencia = :numeroLicencia WHERE id = :id", nativeQuery = true)
-    void actualizarUsuarioConductor(@Param("id") Long id, @Param("nombre") String nombre, @Param("numeroLicencia") String numeroLicencia);
+    @Query(value = "UPDATE usuario_conductor SET nombre = :nombre, numero_licencia = :numeroLicencia, vehiculo = :vehiculo WHERE id = :id", nativeQuery = true)
+    void actualizarUsuarioConductor(
+        @Param("id") Long id,
+        @Param("nombre") String nombre,
+        @Param("numeroLicencia") String numeroLicencia,
+        @Param("vehiculo") String vehiculo
+    );
+
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM usuario_conductor WHERE id = :id", nativeQuery = true)
     void eliminarUsuarioConductor(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query(
+        value = "UPDATE usuario_conductor SET vehiculo = :vehiculo WHERE id = :id",
+        nativeQuery = true
+    )
+    void registrarVehiculo(
+        @Param("id") Long id,
+        @Param("vehiculo") String vehiculo
+);
 }

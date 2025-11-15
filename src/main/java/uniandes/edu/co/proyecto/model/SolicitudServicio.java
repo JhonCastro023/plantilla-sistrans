@@ -9,7 +9,6 @@ public class SolicitudServicio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String origen;
     private String destino;
     private LocalDateTime fechaSolicitud;

@@ -7,21 +7,24 @@ import jakarta.persistence.*;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
 
     private String email;
 
-    private String telefono;
+    private String celular;
 
-    public Usuario(){;}
+    private String cedula;
 
-    public Usuario(String nombre, String email, String telefono) {
+    public Usuario() {}
+
+    public Usuario(String nombre, String email, String celular, String cedula) {
         this.nombre = nombre;
         this.email = email;
-        this.telefono = telefono;
+        this.celular = celular;
+        this.cedula = cedula;
     }
 
     public Long getId() {
@@ -48,16 +51,19 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getCelular() {
+        return celular;
+    }
+    public String getCedula() {
+        return cedula;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 
     @Override
     public String toString() {
-        return this.nombre + " | " + this.email + " | " + this.telefono;
+        return this.nombre + " | " + this.email + " | " + this.celular + " | " + this.cedula;
     }
 }
